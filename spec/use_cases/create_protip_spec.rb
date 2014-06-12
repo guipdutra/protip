@@ -1,5 +1,7 @@
 require 'spec_helper'
+require 'fakeredis'
 require_relative '../../app/use_cases/create_protip'
+require_relative '../../app/mappers/protip_repo'
 
 describe CreateProtip do
   let(:form) {
@@ -12,9 +14,9 @@ describe CreateProtip do
 
   describe "#create" do
     it "creates a protip" do
-      subject.create
-
-      expect(ProtipRepo.count).to eq 1
+      expect {
+        subject.create
+      }.to change(ProtipRepo, :count).by(1)
     end
   end
 end
